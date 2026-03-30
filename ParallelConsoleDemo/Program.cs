@@ -5,6 +5,7 @@ int repetitions = 50;
 Console.WriteLine($"Reading file {repetitions} times...");
 
 // --- TEST 1: Using sequential mode with the stopwatch  ---
+Console.WriteLine("Test 1: Sequential read with Stopwatch");
 var sw = Stopwatch.StartNew();
 
 for (int i = 0; i < repetitions; i++)
@@ -14,6 +15,19 @@ for (int i = 0; i < repetitions; i++)
 
 sw.Stop();
 Console.WriteLine($"Sequential read time: {sw.Elapsed.TotalSeconds} s");
+
+// --- TEST 2: Using parallel mode with the stopwatch  ---
+Console.WriteLine("Test 1: Parallel read with Stopwatch");
+sw.Restart();
+
+Parallel.ForEach(Enumerable.Range(1, repetitions), i =>
+{
+    ReadFile(i);
+});
+
+sw.Stop();
+double parallelTime = sw.Elapsed.TotalSeconds;
+Console.WriteLine($"Parallel read time: {parallelTime} s");
 
 static void ReadFile(int interaction)
 {
